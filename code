@@ -1,0 +1,210 @@
+#include <opencv2/opencv.hpp>
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, char* argv[])
+{
+	int a, b;
+        char k[20];
+	cout << "请输入图片路径：" << endl;
+	cin.getline(k, 20);
+	Mat img1 = imread(k, 0);//获取图片，灰度
+	if (img1.empty())
+	{
+		cout << "error";
+		return -1;
+	}
+	Mat img2(img1.rows * 3, img1.cols * 3, CV_8UC1);//定义十个打印点
+	Mat dot0 = Mat::zeros(3, 3, CV_8UC1);
+	Mat dot1 = Mat::zeros(3, 3, CV_8UC1);
+	dot1.at<uchar>(0, 1) = 255;
+	Mat dot2 = Mat::zeros(3, 3, CV_8UC1);
+	dot2.at<uchar>(0, 1) = 255;
+	dot2.at<uchar>(2, 2) = 255;
+	Mat dot3 = Mat::zeros(3, 3, CV_8UC1);
+	dot3.at<uchar>(0, 0) = 255;
+	dot3.at<uchar>(0, 1) = 255;
+	dot3.at<uchar>(2, 2) = 255;
+	Mat dot4 = Mat::zeros(3, 3, CV_8UC1);
+	dot4.at<uchar>(0, 0) = 255;
+	dot4.at<uchar>(0, 1) = 255;
+	dot4.at<uchar>(2, 0) = 255;
+	dot4.at<uchar>(2, 2) = 255;
+	Mat dot5 = Mat::ones(3, 3, CV_8UC1)*255;
+	dot5.at<uchar>(1, 0) = 0;
+	dot5.at<uchar>(1, 1) = 0;
+	dot5.at<uchar>(1, 2) = 0;
+	dot5.at<uchar>(2, 2) = 0;
+	Mat dot6 = Mat::ones(3, 3, CV_8UC1)*255;
+	dot6.at<uchar>(1, 0) = 0;
+	dot6.at<uchar>(1, 1) = 0;
+	dot6.at<uchar>(2, 2) = 0;
+	Mat dot7 = Mat::ones(3, 3, CV_8UC1)*255;
+	dot7.at<uchar>(1, 0) = 0;
+	dot7.at<uchar>(1, 1) = 0;
+	Mat dot8 = Mat::ones(3, 3, CV_8UC1)*255;
+	dot8.at<uchar>(1, 1) = 0;
+	Mat dot9 = Mat::ones(3, 3, CV_8UC1)*255;
+	for (int i = 0; i < img1.rows; i++)//灰度值量化为0~9十个等级
+	{
+		for (int j = 0; j < img1.cols; j++)
+		{
+			img1.at<uchar>(i, j) = img1.at<uchar>(i, j) / 25.6;
+			img1.at<uchar>(i, j) = floor(img1.at<uchar>(i, j));
+		}
+	}
+	for (int i = 0; i < img1.rows; i++)
+	{
+		for (int j = 0; j < img1.cols; j++)
+		{
+			if (img1.at<uchar>(i, j) == 0)//处理等级为0的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot0.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot0.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot0.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot0.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot0.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot0.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot0.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot0.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot0.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 1)//处理等级为1的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot1.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot1.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot1.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot1.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot1.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot1.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot1.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot1.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot1.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 2)//处理等级为2的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot2.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot2.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot2.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot2.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot2.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot2.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot2.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot2.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot2.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 3)//处理等级为3的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot3.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot3.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot3.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot3.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot3.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot3.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot3.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot3.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot3.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 4)//处理等级为4的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot4.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot4.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot4.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot4.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot4.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot4.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot4.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot4.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot4.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 5)//处理等级为5的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot5.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot5.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot5.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot5.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot5.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot5.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot5.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot5.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot5.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 6)//处理等级为6的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot6.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot6.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot6.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot6.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot6.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot6.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot6.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot6.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot6.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 7)//处理等级为7的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot7.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot7.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot7.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot7.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot7.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot7.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot7.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot7.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot7.at<uchar>(2, 2);
+			}
+			else if (img1.at<uchar>(i, j) == 8)//处理等级为8的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot8.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot8.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot8.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot8.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot8.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot8.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot8.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot8.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot8.at<uchar>(2, 2);
+			}
+			else//处理等级为9的点
+			{
+				a = i * 3;
+				b = j * 3;
+				img2.at<uchar>(a, b) = dot9.at<uchar>(0, 0);
+				img2.at<uchar>(a, b + 1) = dot9.at<uchar>(0, 1);
+				img2.at<uchar>(a, b + 2) = dot9.at<uchar>(0, 2);
+				img2.at<uchar>(a + 1, b) = dot9.at<uchar>(1, 0);
+				img2.at<uchar>(a + 1, b + 1) = dot9.at<uchar>(1, 1);
+				img2.at<uchar>(a + 1, b + 2) = dot9.at<uchar>(1, 2);
+				img2.at<uchar>(a + 2, b) = dot9.at<uchar>(2, 0);
+				img2.at<uchar>(a + 2, b + 2) = dot9.at<uchar>(2, 1);
+				img2.at<uchar>(a + 2, b + 2) = dot9.at<uchar>(2, 2);
+			}
+		}
+	}
+	imwrite("F://2-1.bmp", img2);
+	imshow("实验2-1", img2);
+	waitKey();
+	return 0;
+}
